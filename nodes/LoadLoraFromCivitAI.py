@@ -21,7 +21,6 @@ class LoadLoraFromCivitAIWithDownloader:
                 "strength_model": ("FLOAT", {"default": 1.0, "min": -100.0, "max": 100.0, "step": 0.01}),
                 "strength_clip": ("FLOAT", {"default": 1.0, "min": -100.0, "max": 100.0, "step": 0.01}),
                 "civitai_model_id": ("STRING", {"default": "", "tooltip": "The ID of the model to download from CivitAI."}),
-                "civitai_token_id": ("STRING", {"default": "", "tooltip": "The API token for authentication."})
             }
         }
 
@@ -29,7 +28,11 @@ class LoadLoraFromCivitAIWithDownloader:
     FUNCTION = "load_and_download_lora"
     CATEGORY = "loaders"
 
-    def load_and_download_lora(self, model, clip, strength_model, strength_clip, civitai_model_id, civitai_token_id):
+    def load_and_download_lora(self, model, clip, strength_model, strength_clip, civitai_model_id):
+        # 获取 CivitAI Token
+        civitai_token_id = os.getenv("CIVITAI_TOKEN", "").strip()
+        if not civitai_token_id:
+            raise RuntimeError("CIVITAI_TOKEN environment variable is not set or empty.")
         # 目标存储路径为 loras 目录
         loras_dir = folder_paths.get_folder_paths("loras")[0]
 
