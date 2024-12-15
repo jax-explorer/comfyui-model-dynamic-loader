@@ -80,3 +80,4 @@ class LoadLoraFromCivitAIWithDownloader:
 
         model_lora, clip_lora = comfy.sd.load_lora_for_models(model, clip, lora, strength_model, strength_clip)
         return model_lora, clip_lora
+    
