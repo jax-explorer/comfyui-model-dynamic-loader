@@ -20,7 +20,7 @@ async function uploadFile(file) {
         });
 
         if (resp.status === 200) {
-            return resp.status
+            return resp
         } else {
             alert(resp.status + " - " + resp.statusText);
         }
@@ -45,17 +45,17 @@ function addUploadWidget(nodeType, nodeData, widgetName) {
             style: "display: none",
             onchange: async () => {
                 if (fileInput.files.length) {
-                    if (await uploadFile(fileInput.files[0]) != 200) {
+                    let resp = await uploadFile(fileInput.files[0])
+                    if (resp.status != 200) {
                         //upload failed and file can not be added to options
                         return;
                     }
-                    const filename = fileInput.files[0].name;
+                    const filename = (await resp.json()).name;
                     pathWidget.options.values.push(filename);
                     pathWidget.value = filename;
                     if (pathWidget.callback) {
                         pathWidget.callback(filename)
                     }
-                    app.graph.setDirtyCanvas(true);
                 }
             },
         });
