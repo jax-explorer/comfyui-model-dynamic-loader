@@ -42,7 +42,6 @@ class LoadLoraFromHFWithDownloader:
         loras_dir = folder_paths.get_folder_paths("loras")[0]
         lora_filename = f"tmp_{repo.replace('/', '_')}_{file_name}.safetensors"  # 临时文件名
         lora_path = os.path.join(loras_dir, lora_filename)
-
         # 下载文件
         download_success = self.download_from_hf(download_url, lora_path)
         if not download_success:

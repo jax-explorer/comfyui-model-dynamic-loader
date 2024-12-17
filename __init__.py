@@ -1,8 +1,8 @@
 
 from .nodes.LoadLoraFromCivitAI import LoadLoraFromCivitAIWithDownloader
 from .nodes.LoadLoraFromHF import LoadLoraFromHFWithDownloader
-from .nodes.LoadHunyuanLoraFromCivitAI import LoadHunyuanLoraFromCivitAIWithDownloader
-from .nodes.LoadHunyuanLoraFromHF import LoadHunyuanLoraFromHFWithDownloader
+from .nodes.nodes import LoadHunyuanLoraFromCivitAIWithDownloader
+from .nodes.nodes import LoadHunyuanLoraFromHFWithDownloader
 from .nodes.upload_anything import UploadAnything
 from .nodes.save_file import ComfyOnlineSaveFile
 
