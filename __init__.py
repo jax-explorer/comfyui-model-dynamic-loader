@@ -7,6 +7,7 @@ from .nodes.nodes import LoadHunyuanLoraFromHFWithDownloader
 from .nodes.nodes import LoadHunyuanLoraFromComfyOnlineWithDownloader
 from .nodes.upload_anything import UploadAnything
 from .nodes.save_file import ComfyOnlineSaveFile
+from .nodes.LoadEmbedding import EmbeddingLoader
 
 NODE_CLASS_MAPPINGS = { 
     "LoadLoraFromCivitAI":LoadLoraFromCivitAIWithDownloader,
@@ -16,7 +17,8 @@ NODE_CLASS_MAPPINGS = {
     "LoadHunyuanLoraFromHF":LoadHunyuanLoraFromHFWithDownloader,
     "LoadLoraFromHF":LoadLoraFromHFWithDownloader,
     "ComfyOnlineUploadAnything": UploadAnything,
-    "ComfyOnlineSaveFile": ComfyOnlineSaveFile
+    "ComfyOnlineSaveFile": ComfyOnlineSaveFile,
+    "EmbeddingLoader": EmbeddingLoader
 
 }
 NODE_DISPLAY_NAME_MAPPINGS = { 
@@ -27,7 +29,9 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "LoadHunyuanLoraFromCivitAI": "Load HunyuanLora From CivitAI",
     "LoadHunyuanLoraFromHF": "Load HunyuanLora From HF",
     'ComfyOnlineUploadAnything': "ComfyOnlineUploadAnything",
-    "ComfyOnlineSaveFile": "ComfyOnlineSaveFile"
+    "ComfyOnlineSaveFile": "ComfyOnlineSaveFile",
+    "EmbeddingLoader": "Load Embedding"
+
 }
 
 WEB_DIRECTORY = "./web"
