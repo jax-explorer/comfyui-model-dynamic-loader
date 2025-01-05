@@ -16,7 +16,6 @@ class EmbeddingLoader:
     
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("string",)
-    OUTPUT_TOOLTIPS = ("The embbeding text.")
     FUNCTION = "load_embedding"
 
     CATEGORY = "embeddings"
