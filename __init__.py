@@ -8,6 +8,7 @@ from .nodes.nodes import LoadHunyuanLoraFromComfyOnlineWithDownloader
 from .nodes.upload_anything import UploadAnything
 from .nodes.save_file import ComfyOnlineSaveFile
 from .nodes.LoadEmbedding import EmbeddingLoader
+from .nodes.AudioSave import SaveAudioAsWav
 
 NODE_CLASS_MAPPINGS = { 
     "LoadLoraFromCivitAI":LoadLoraFromCivitAIWithDownloader,
@@ -18,7 +19,8 @@ NODE_CLASS_MAPPINGS = {
     "LoadLoraFromHF":LoadLoraFromHFWithDownloader,
     "ComfyOnlineUploadAnything": UploadAnything,
     "ComfyOnlineSaveFile": ComfyOnlineSaveFile,
-    "EmbeddingLoader": EmbeddingLoader
+    "EmbeddingLoader": EmbeddingLoader,
+    "SaveAudioAsWav": SaveAudioAsWav
 
 }
 NODE_DISPLAY_NAME_MAPPINGS = { 
@@ -30,7 +32,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "LoadHunyuanLoraFromHF": "Load HunyuanLora From HF",
     'ComfyOnlineUploadAnything': "ComfyOnlineUploadAnything",
     "ComfyOnlineSaveFile": "ComfyOnlineSaveFile",
-    "EmbeddingLoader": "Load Embedding"
+    "EmbeddingLoader": "Load Embedding",
+    "SaveAudioAsWav": "Save Audio As Wav"
 
 }
 
