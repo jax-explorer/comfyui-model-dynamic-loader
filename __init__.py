@@ -9,6 +9,7 @@ from .nodes.upload_anything import UploadAnything
 from .nodes.save_file import ComfyOnlineSaveFile
 from .nodes.LoadEmbedding import EmbeddingLoader
 from .nodes.AudioSave import SaveAudioAsWav
+from .nodes.LoadCheckpointFromCivitAI import LoadCheckpointFromCivitAIWithDownloader
 
 NODE_CLASS_MAPPINGS = { 
     "LoadLoraFromCivitAI":LoadLoraFromCivitAIWithDownloader,
@@ -20,7 +21,8 @@ NODE_CLASS_MAPPINGS = {
     "ComfyOnlineUploadAnything": UploadAnything,
     "ComfyOnlineSaveFile": ComfyOnlineSaveFile,
     "EmbeddingLoader": EmbeddingLoader,
-    "SaveAudioAsWav": SaveAudioAsWav
+    "SaveAudioAsWav": SaveAudioAsWav,
+    "LoadCheckpointFromCivitAI": LoadCheckpointFromCivitAIWithDownloader
 
 }
 NODE_DISPLAY_NAME_MAPPINGS = { 
@@ -33,7 +35,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     'ComfyOnlineUploadAnything': "ComfyOnlineUploadAnything",
     "ComfyOnlineSaveFile": "ComfyOnlineSaveFile",
     "EmbeddingLoader": "Load Embedding",
-    "SaveAudioAsWav": "Save Audio As Wav"
+    "SaveAudioAsWav": "Save Audio As Wav",
+    "LoadCheckpointFromCivitAI": "Load Checkpoint From CivitAI"
 
 }
 
