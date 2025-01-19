@@ -63,8 +63,11 @@ class LoadLoraFromHFWithDownloader:
         从 Hugging Face 下载文件到指定路径。
         """
         print(f"Downloading LoRA from Hugging Face: {url}")
+        headers = {}
+        HF_TOKEN = os.getenv("HF_TOKEN", "").strip()
+        headers["Authorization"] = f"Bearer {HF_TOKEN}"
         try:
-            with requests.get(url, stream=True) as response:
+            with requests.get(url, stream=True, headers=headers) as response:
                 response.raise_for_status()
                 with open(lora_path, 'wb') as file:
                     for chunk in response.iter_content(chunk_size=8192):
