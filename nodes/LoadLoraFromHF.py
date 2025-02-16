@@ -11,61 +11,15 @@ import comfy.utils
 import folder_paths
 import os
 
-class LoadLoraFromHFWithDownloader:
+class LoadLoraFromHFBase:
     def __init__(self):
         self.loaded_lora = None
 
-    @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "model": ("MODEL", {"tooltip": "The diffusion model the LoRA will be applied to."}),
-                "clip": ("CLIP", {"tooltip": "The CLIP model the LoRA will be applied to."}),
-                "strength_model": ("FLOAT", {"default": 1.0, "min": -100.0, "max": 100.0, "step": 0.01}),
-                "strength_clip": ("FLOAT", {"default": 1.0, "min": -100.0, "max": 100.0, "step": 0.01}),
-                "repo": ("STRING", {"default": "", "tooltip": "The Hugging Face repository name, e.g., 'user/repo'."}),
-                "file_name": ("STRING", {"default": "", "tooltip": "The file name in the Hugging Face repository."}),
-            }
-        }
-
-    RETURN_TYPES = ("MODEL", "CLIP")
-    FUNCTION = "load_and_download_lora"
-    CATEGORY = "loaders"
-
-    def load_and_download_lora(self, model, clip, strength_model, strength_clip, repo, file_name):
-        # 验证参数
-        if not repo or not file_name:
-            raise ValueError("Both 'repo' and 'file_name' parameters are required.")
-
-        # 构建下载 URL 和临时文件路径
-        download_url = f"https://huggingface.co/{repo}/resolve/main/{file_name}"
-        loras_dir = folder_paths.get_folder_paths("loras")[0]
-        lora_filename = f"tmp_{repo.replace('/', '_')}_{file_name.replace('/', '_')}.safetensors"  # 临时文件名
-        lora_path = os.path.join(loras_dir, lora_filename)
-        # 下载文件
-        download_success = self.download_from_hf(download_url, lora_path)
-        if not download_success:
-            raise RuntimeError(f"Failed to download LoRA file from Hugging Face: {download_url}")
-
-        # 加载 LoRA 文件
-        loaded_model, loaded_clip = self.load_lora(model, clip, lora_path, strength_model, strength_clip)
-
-        # 加载后删除临时文件
-        try:
-            os.remove(lora_path)
-        except Exception as e:
-            print(f"Failed to delete temporary LoRA file: {e}")
-
-        return loaded_model, loaded_clip
-
-    def download_from_hf(self, url, lora_path):
+    def download_from_hf(self, url, lora_path, headers):
         """
         从 Hugging Face 下载文件到指定路径。
         """
         print(f"Downloading LoRA from Hugging Face: {url}")
-        headers = {}
-        HF_TOKEN = os.getenv("HF_TOKEN", "").strip()
-        headers["Authorization"] = f"Bearer {HF_TOKEN}"
         try:
             with requests.get(url, stream=True, headers=headers) as response:
                 response.raise_for_status()
@@ -100,3 +54,93 @@ class LoadLoraFromHFWithDownloader:
 
         model_lora, clip_lora = comfy.sd.load_lora_for_models(model, clip, lora, strength_model, strength_clip)
         return model_lora, clip_lora
+
+class LoadLoraFromHFWithDownloader(LoadLoraFromHFBase):
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "model": ("MODEL", {"tooltip": "The diffusion model the LoRA will be applied to."}),
+                "clip": ("CLIP", {"tooltip": "The CLIP model the LoRA will be applied to."}),
+                "strength_model": ("FLOAT", {"default": 1.0, "min": -100.0, "max": 100.0, "step": 0.01}),
+                "strength_clip": ("FLOAT", {"default": 1.0, "min": -100.0, "max": 100.0, "step": 0.01}),
+                "repo": ("STRING", {"default": "", "tooltip": "The Hugging Face repository name, e.g., 'user/repo'."}),
+                "file_name": ("STRING", {"default": "", "tooltip": "The file name in the Hugging Face repository."}),
+            }
+        }
+
+    RETURN_TYPES = ("MODEL", "CLIP")
+    FUNCTION = "load_and_download_lora"
+    CATEGORY = "loaders"
+
+    def load_and_download_lora(self, model, clip, strength_model, strength_clip, repo, file_name):
+        if not repo or not file_name:
+            raise ValueError("Both 'repo' and 'file_name' parameters are required.")
+
+        download_url = f"https://huggingface.co/{repo}/resolve/main/{file_name}"
+        loras_dir = folder_paths.get_folder_paths("loras")[0]
+        lora_filename = f"tmp_{repo.replace('/', '_')}_{file_name.replace('/', '_')}.safetensors"
+        lora_path = os.path.join(loras_dir, lora_filename)
+
+        headers = {}
+        HF_TOKEN = os.getenv("HF_TOKEN", "").strip()
+        if HF_TOKEN:
+            headers["Authorization"] = f"Bearer {HF_TOKEN}"
+
+        download_success = self.download_from_hf(download_url, lora_path, headers)
+        if not download_success:
+            raise RuntimeError(f"Failed to download LoRA file from Hugging Face: {download_url}")
+
+        loaded_model, loaded_clip = self.load_lora(model, clip, lora_path, strength_model, strength_clip)
+
+        try:
+            os.remove(lora_path)
+        except Exception as e:
+            print(f"Failed to delete temporary LoRA file: {e}")
+
+        return loaded_model, loaded_clip
+
+class LoadLoraFromHFWithToken(LoadLoraFromHFBase):
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "model": ("MODEL", {"tooltip": "The diffusion model the LoRA will be applied to."}),
+                "clip": ("CLIP", {"tooltip": "The CLIP model the LoRA will be applied to."}),
+                "strength_model": ("FLOAT", {"default": 1.0, "min": -100.0, "max": 100.0, "step": 0.01}),
+                "strength_clip": ("FLOAT", {"default": 1.0, "min": -100.0, "max": 100.0, "step": 0.01}),
+                "repo": ("STRING", {"default": "", "tooltip": "The Hugging Face repository name, e.g., 'user/repo'."}),
+                "file_name": ("STRING", {"default": "", "tooltip": "The file name in the Hugging Face repository."}),
+                "hf_token": ("STRING", {"default": "", "tooltip": "Your Hugging Face token for accessing private repositories."})
+            }
+        }
+
+    RETURN_TYPES = ("MODEL", "CLIP")
+    FUNCTION = "load_and_download_lora"
+    CATEGORY = "loaders"
+
+    def load_and_download_lora(self, model, clip, strength_model, strength_clip, repo, file_name, hf_token):
+        if not repo or not file_name:
+            raise ValueError("Both 'repo' and 'file_name' parameters are required.")
+
+        download_url = f"https://huggingface.co/{repo}/resolve/main/{file_name}"
+        loras_dir = folder_paths.get_folder_paths("loras")[0]
+        lora_filename = f"tmp_{repo.replace('/', '_')}_{file_name.replace('/', '_')}.safetensors"
+        lora_path = os.path.join(loras_dir, lora_filename)
+
+        headers = {}
+        if hf_token.strip():
+            headers["Authorization"] = f"Bearer {hf_token.strip()}"
+        
+        download_success = self.download_from_hf(download_url, lora_path, headers)
+        if not download_success:
+            raise RuntimeError(f"Failed to download LoRA file from Hugging Face: {download_url}")
+
+        loaded_model, loaded_clip = self.load_lora(model, clip, lora_path, strength_model, strength_clip)
+
+        try:
+            os.remove(lora_path)
+        except Exception as e:
+            print(f"Failed to delete temporary LoRA file: {e}")
+
+        return loaded_model, loaded_clip
