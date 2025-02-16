@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-model-dynamic-loader"
+description = "for comfyonline dynamic loader\ncomfyonline is comfyui cloud website"
+version = "1.0.0"
+license = {file = "LICENSE"}
+
+[project.urls]
+Repository = "https://github.com/jax-explorer/comfyui-model-dynamic-loader"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "comfyui-model-dynamic-loader"
+Icon = ""
