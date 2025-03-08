@@ -12,6 +12,7 @@ import folder_paths
 import os
 
 folder_paths.add_model_folder_path("tmp_hunyuan_loras", os.path.join(folder_paths.models_dir, "tmp_hunyuan_loras"))
+folder_paths.add_model_folder_path("tmp_hunyuan_loras", os.path.join(folder_paths.models_dir, "tmp_hunyuan_loras"))
 
 
 class LoadWanVideoLoraFromCivitAIWithDownloader:
