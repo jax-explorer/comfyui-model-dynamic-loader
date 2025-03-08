@@ -9,7 +9,7 @@ from .nodes.save_file import ComfyOnlineSaveFile
 from .nodes.LoadEmbedding import EmbeddingLoader
 from .nodes.AudioSave import SaveAudioAsWav
 from .nodes.TextSave import TextSave
-
+from .nodes.nodes import LoadWanVideoLoraFromCivitAIWithDownloader
 from .nodes.LoadCheckpointFromCivitAI import LoadCheckpointFromCivitAIWithDownloader
 
 NODE_CLASS_MAPPINGS = { 
@@ -17,6 +17,7 @@ NODE_CLASS_MAPPINGS = {
     "LoadLoraFromComfyOnline":LoadLoraFromComfyOnlineWithDownloader,
     "LoadHunyuanLoraFromCivitAI":LoadHunyuanLoraFromCivitAIWithDownloader,
     "LoadHunyuanLoraFromComfyOnline":LoadHunyuanLoraFromComfyOnlineWithDownloader,
+    "LoadWanVideoLoraFromCivitAI":LoadWanVideoLoraFromCivitAIWithDownloader,
     "LoadHunyuanLoraFromHF":LoadHunyuanLoraFromHFWithDownloader,
     "LoadLoraFromHF":LoadLoraFromHFWithDownloader,
     "LoadLoraFromHFWithToken": LoadLoraFromHFWithToken,
@@ -36,6 +37,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "LoadHunyuanLoraFromComfyOnline":" Load Lora From ComfyOnline",
     "LoadHunyuanLoraFromCivitAI": "Load HunyuanLora From CivitAI",
     "LoadHunyuanLoraFromHF": "Load HunyuanLora From HF",
+    "LoadWanVideoLoraFromCivitAI": "Load WanVideoLora From CivitAI",
     'ComfyOnlineUploadAnything': "ComfyOnlineUploadAnything",
     "ComfyOnlineSaveFile": "ComfyOnlineSaveFile",
     "EmbeddingLoader": "Load Embedding",
