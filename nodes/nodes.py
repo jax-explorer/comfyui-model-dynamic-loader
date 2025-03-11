@@ -104,7 +104,7 @@ class LoadWanVideoLoraFromComfyOnlineWithDownloader:
         # if not comfyonline_token_id:
         #     raise RuntimeError("ComfyOnline_TOKEN environment variable is not set or empty.")
         # 目标存储路径为 loras 目录
-        loras_dir = folder_paths.get_folder_paths("tmp_hunyuan_loras")[0]
+        loras_dir = folder_paths.get_folder_paths("tmp_wanvideo_loras")[0]
 
         # 下载文件到 loras 目录
         lora_filename = f"tmp_comfyonline_{comfyonline_model_id or 'downloaded_lora'}.safetensors"  # 生成临时文件名
