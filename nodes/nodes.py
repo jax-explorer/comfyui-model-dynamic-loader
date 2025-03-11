@@ -74,6 +74,58 @@ class LoadWanVideoLoraFromCivitAIWithDownloader:
         # 实现下载逻辑
         download_cai(model_id, token_id, lora_path)
 
+class LoadWanVideoLoraFromComfyOnlineWithDownloader:
+    def __init__(self):
+        self.loaded_lora = None
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "comfyonline_model_id": ("STRING", {"default": "", "tooltip": "The ID of the model to download from ComfyOnline."}),
+                "strength": ("FLOAT", {"default": 1.0, "min": -10.0, "max": 10.0, "step": 0.0001, "tooltip": "LORA strength, set to 0.0 to unmerge the LORA"}),
+            },
+            "optional": {
+                "prev_lora":("HYVIDLORA", {"default": None, "tooltip": "For loading multiple LoRAs"}),
+                "blocks":("SELECTEDBLOCKS", ),
+            }
+        }
+
+    RETURN_TYPES = ("WANVIDLORA",)
+    RETURN_NAMES = ("lora", )
+    FUNCTION = "getlorapath"
+    CATEGORY = "WanVideoWrapper"
+    DESCRIPTION = "Select a LoRA model from ComfyOnline"
+
+    def getlorapath(self, comfyonline_model_id, strength, blocks=None, prev_lora=None, fuse_lora=False):
+        # 获取 comfyOnline Token
+        comfyonline_token_id = ""
+        # comfyonline_token_id = os.getenv("ComfyOnline_TOKEN", "").strip()
+        # if not comfyonline_token_id:
+        #     raise RuntimeError("ComfyOnline_TOKEN environment variable is not set or empty.")
+        # 目标存储路径为 loras 目录
+        loras_dir = folder_paths.get_folder_paths("tmp_hunyuan_loras")[0]
+
+        # 下载文件到 loras 目录
+        lora_filename = f"tmp_comfyonline_{comfyonline_model_id or 'downloaded_lora'}.safetensors"  # 生成临时文件名
+        lora_path = os.path.join(loras_dir, lora_filename)
+        
+        self.download_from_ComfyOnline(comfyonline_model_id, comfyonline_token_id, lora_path)
+
+        loras_list = []
+        lora = {
+            "path": lora_path,
+            "strength": strength,
+            "name": lora_filename,
+            "fuse_lora": fuse_lora,
+            "blocks": blocks
+        }
+        if prev_lora is not None:
+            loras_list.extend(prev_lora)
+
+        loras_list.append(lora)
+        return (loras_list,)
+
 
 class LoadHunyuanLoraFromCivitAIWithDownloader:
     def __init__(self):

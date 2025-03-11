@@ -1,9 +1,12 @@
 from .nodes.LoadLoraFromCivitAI import LoadLoraFromCivitAIWithDownloader
 from .nodes.LoadLoraFromHF import LoadLoraFromHFWithDownloader, LoadLoraFromHFWithToken
 from .nodes.LoadLoraFromComfyOnline import LoadLoraFromComfyOnlineWithDownloader
+
 from .nodes.nodes import LoadHunyuanLoraFromCivitAIWithDownloader
 from .nodes.nodes import LoadHunyuanLoraFromHFWithDownloader
 from .nodes.nodes import LoadHunyuanLoraFromComfyOnlineWithDownloader
+from .nodes.nodes import LoadWanVideoLoraFromComfyOnlineWithDownloader
+
 from .nodes.upload_anything import UploadAnything
 from .nodes.save_file import ComfyOnlineSaveFile
 from .nodes.LoadEmbedding import EmbeddingLoader
@@ -17,6 +20,7 @@ NODE_CLASS_MAPPINGS = {
     "LoadLoraFromComfyOnline":LoadLoraFromComfyOnlineWithDownloader,
     "LoadHunyuanLoraFromCivitAI":LoadHunyuanLoraFromCivitAIWithDownloader,
     "LoadHunyuanLoraFromComfyOnline":LoadHunyuanLoraFromComfyOnlineWithDownloader,
+    "LoadWanVideoLoraFromComfyOnline":LoadWanVideoLoraFromComfyOnlineWithDownloader,
     "LoadWanVideoLoraFromCivitAI":LoadWanVideoLoraFromCivitAIWithDownloader,
     "LoadHunyuanLoraFromHF":LoadHunyuanLoraFromHFWithDownloader,
     "LoadLoraFromHF":LoadLoraFromHFWithDownloader,
@@ -43,7 +47,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "EmbeddingLoader": "Load Embedding",
     "SaveAudioAsWav": "Save Audio As Wav",
     "SaveText": "Save Text ComfyOnline",
-    "LoadCheckpointFromCivitAI": "Load Checkpoint From CivitAI"
+    "LoadCheckpointFromCivitAI": "Load Checkpoint From CivitAI",
+    "LoadWanVideoLoraFromComfyOnline": "Load WanVideoLora From ComfyOnline"
 }
 
 WEB_DIRECTORY = "./web"
