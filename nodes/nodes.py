@@ -125,6 +125,13 @@ class LoadWanVideoLoraFromComfyOnlineWithDownloader:
 
         loras_list.append(lora)
         return (loras_list,)
+    def download_from_ComfyOnline(self, model_id, token_id, lora_path):
+        print("Downloading LoRA from ComfyOnline")
+        print(f"\tModel ID: {model_id}")
+        print(f"\tToken ID: {token_id}")
+        print(f"\tSave path: {lora_path}")
+        # 实现下载逻辑
+        download_comfyonline(model_id, token_id, lora_path)
 
 
 class LoadHunyuanLoraFromCivitAIWithDownloader:
@@ -177,6 +184,7 @@ class LoadHunyuanLoraFromCivitAIWithDownloader:
 
         loras_list.append(lora)
         return (loras_list,)
+    
 
     def download_from_civitai(self, model_id, token_id, lora_path):
         print("Downloading LoRA from CivitAI")
