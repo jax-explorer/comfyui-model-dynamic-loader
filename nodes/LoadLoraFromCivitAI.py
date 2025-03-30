@@ -33,6 +33,7 @@ class LoadLoraFromCivitAIWithDownloader:
         civitai_token_id = os.getenv("CIVITAI_TOKEN", "").strip()
         if not civitai_token_id:
             raise RuntimeError("CIVITAI_TOKEN environment variable is not set or empty.")
+        
         # 目标存储路径为 loras 目录
         loras_dir = folder_paths.get_folder_paths("loras")[0]
 
@@ -40,16 +41,15 @@ class LoadLoraFromCivitAIWithDownloader:
         lora_filename = f"tmp_{civitai_model_id or 'downloaded_lora'}.safetensors"  # 生成临时文件名
         lora_path = os.path.join(loras_dir, lora_filename)
         
-        self.download_from_civitai(civitai_model_id, civitai_token_id, lora_path)
+        # 检查文件是否已存在，如果不存在或强制下载则下载
+        file_exists = os.path.exists(lora_path)
+        if not file_exists:
+            self.download_from_civitai(civitai_model_id, civitai_token_id, lora_path)
+        else:
+            print(f"LoRA file already exists at {lora_path}, skipping download")
 
         # 加载 LoRA
         loaded_model, loaded_clip = self.load_lora(model, clip, lora_path, strength_model, strength_clip)
-
-        # 加载后删除临时文件
-        try:
-            os.remove(lora_path)
-        except Exception as e:
-            print(f"Failed to delete temporary LoRA file: {e}")
 
         return loaded_model, loaded_clip
 

@@ -10,10 +10,16 @@ def download_file_with_token(url, params=None, save_path='.'):
             response.raise_for_status()  # Raise an error for bad responses
             print(f"Downloading model successfully from {response.url}")
 
-            # Write response content to the specified file path
-            with open(save_path, 'wb') as file:
-                for chunk in response.iter_content(chunk_size=8192): 
+            # Create temporary file path
+            temp_path = save_path + '.download'
+
+            # Write response content to temporary file first
+            with open(temp_path, 'wb') as file:
+                for chunk in response.iter_content(chunk_size=8192):
                     file.write(chunk)
+
+            # After successful download, rename temp file to target path
+            os.replace(temp_path, save_path)
             
             print(f"File downloaded successfully: {save_path}")
             return True
@@ -22,6 +28,12 @@ def download_file_with_token(url, params=None, save_path='.'):
         print(f'HTTP error occurred: {http_err}')
     except Exception as err:
         print(f'An error occurred: {err}')
+        # Clean up temp file if it exists
+        if os.path.exists(temp_path):
+            try:
+                os.remove(temp_path)
+            except:
+                pass
     return False
 
 
