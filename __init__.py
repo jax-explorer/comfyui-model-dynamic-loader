@@ -14,7 +14,7 @@ from .nodes.AudioSave import SaveAudioAsWav
 from .nodes.TextSave import TextSave
 from .nodes.nodes import LoadWanVideoLoraFromCivitAIWithDownloader
 from .nodes.LoadCheckpointFromCivitAI import LoadCheckpointFromCivitAIWithDownloader
-
+from .nodes.LoadImageFromURL import LoadImageFromURL
 NODE_CLASS_MAPPINGS = { 
     "LoadLoraFromCivitAI":LoadLoraFromCivitAIWithDownloader,
     "LoadLoraFromComfyOnline":LoadLoraFromComfyOnlineWithDownloader,
@@ -31,7 +31,8 @@ NODE_CLASS_MAPPINGS = {
     "EmbeddingLoader": EmbeddingLoader,
     "SaveAudioAsWav": SaveAudioAsWav,
     "SaveText": TextSave,
-    "LoadCheckpointFromCivitAI": LoadCheckpointFromCivitAIWithDownloader
+    "LoadCheckpointFromCivitAI": LoadCheckpointFromCivitAIWithDownloader,
+    "LoadImageFromURL": LoadImageFromURL
 
 }
 NODE_DISPLAY_NAME_MAPPINGS = { 
@@ -50,7 +51,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "SaveText": "Save Text ComfyOnline",
     "LoadCheckpointFromCivitAI": "Load Checkpoint From CivitAI",
     "LoadWanVideoLoraFromComfyOnline": "Load WanVideoLora From ComfyOnline",
-    "LoadWanVideoLoraFromHF": "Load WanVideoLora From HF"
+    "LoadWanVideoLoraFromHF": "Load WanVideoLora From HF",
+    "LoadImageFromURL": "Load Image From URL (ComfyOnline)"
 }
 
 WEB_DIRECTORY = "./web"
